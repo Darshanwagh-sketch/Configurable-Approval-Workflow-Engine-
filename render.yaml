@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: configurable-approval-workflow-engine
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    healthCheckPath: /v3/api-docs
+    envVars:
+      - key: PORT
+        value: 10000
