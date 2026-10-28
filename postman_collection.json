@@ -1,0 +1,423 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "name": "Configurable Approval Workflow Engine API",
+    "description": "Comprehensive Postman collection for testing the Configurable Approval Workflow Engine. Supports automated JWT token extraction and covers the entire workflow lifecycle including creation, dynamic approvals, rejections, audit history, and administrator overrides.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "requestId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Requester (requester1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "    console.log('Requester token stored:', jsonData.token);",
+                  "}",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"requester1\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Approver (approver1)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "    console.log('Approver token stored:', jsonData.token);",
+                  "}",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"approver1\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Admin (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "    console.log('Admin token stored:', jsonData.token);",
+                  "}",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register - New User (REQUESTER)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"newuser99\",\n  \"password\": \"secret123\",\n  \"role\": \"REQUESTER\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Workflow Requests",
+      "item": [
+        {
+          "name": "Create LEAVE Request (2 steps: APPROVER -> ADMIN)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('requestId', jsonData.id);",
+                  "    console.log('Created requestId stored:', jsonData.id);",
+                  "}",
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"LEAVE\",\n  \"payload\": {\n    \"reason\": \"Annual Vacation Leave\",\n    \"days\": 5,\n    \"startDate\": \"2026-11-01\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["requests"]
+            }
+          }
+        },
+        {
+          "name": "Create EXPENSE Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"EXPENSE\",\n  \"payload\": {\n    \"amount\": 450.75,\n    \"currency\": \"USD\",\n    \"category\": \"Client Dinner\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["requests"]
+            }
+          }
+        },
+        {
+          "name": "Create PURCHASE_ORDER Request (3 steps)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"PURCHASE_ORDER\",\n  \"payload\": {\n    \"item\": \"Server Rack Hardware\",\n    \"quantity\": 2,\n    \"totalCost\": 12500\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["requests"]
+            }
+          }
+        },
+        {
+          "name": "Get Request Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/requests/{{requestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["requests", "{{requestId}}"]
+            }
+          }
+        },
+        {
+          "name": "Approve Current Step",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remarks\": \"Verified receipts and approved step.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/requests/{{requestId}}/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["requests", "{{requestId}}", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Reject Current Step",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remarks\": \"Budget cap exceeded for current quarter.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/requests/{{requestId}}/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["requests", "{{requestId}}", "reject"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve Chronological Audit History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/requests/history/{{requestId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["requests", "history", "{{requestId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Administrator Overrides",
+      "item": [
+        {
+          "name": "Admin Override -> APPROVED",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetStatus\": \"APPROVED\",\n  \"remarks\": \"Executive override sanctioned per board resolution #882.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/requests/{{requestId}}/override",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "requests", "{{requestId}}", "override"]
+            }
+          }
+        },
+        {
+          "name": "Admin Override -> REJECTED",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetStatus\": \"REJECTED\",\n  \"remarks\": \"Audit compliance check failed during review.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/requests/{{requestId}}/override",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "requests", "{{requestId}}", "override"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. API Documentation",
+      "item": [
+        {
+          "name": "Get OpenAPI 3.0 Specification JSON",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/v3/api-docs",
+              "host": ["{{baseUrl}}"],
+              "path": ["v3", "api-docs"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
