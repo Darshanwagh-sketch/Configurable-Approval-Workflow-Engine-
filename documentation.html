@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Configurable Approval Workflow Engine — Comprehensive Project Guide</title>
+<style>
+    @page {
+        size: A4;
+        margin: 20mm 15mm 20mm 15mm;
+        @bottom-right {
+            content: "Page " counter(page);
+            font-size: 9pt;
+            color: #64748b;
+        }
+    }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: #1e293b;
+        background-color: #ffffff;
+        line-height: 1.5;
+        font-size: 10.5pt;
+        margin: 0;
+        padding: 0;
+    }
+    h1, h2, h3, h4 {
+        color: #0f172a;
+        font-weight: 700;
+        page-break-after: avoid;
+    }
+    h1 {
+        font-size: 24pt;
+        border-bottom: 3px solid #2563eb;
+        padding-bottom: 8px;
+        margin-top: 0;
+        margin-bottom: 12px;
+    }
+    h2 {
+        font-size: 15pt;
+        border-bottom: 1.5px solid #e2e8f0;
+        padding-bottom: 6px;
+        margin-top: 24px;
+        margin-bottom: 12px;
+        color: #1e40af;
+    }
+    h3 {
+        font-size: 12pt;
+        margin-top: 16px;
+        margin-bottom: 8px;
+        color: #334155;
+    }
+    p {
+        margin: 0 0 10px 0;
+    }
+    .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        font-size: 8.5pt;
+        font-weight: 600;
+        border-radius: 4px;
+        background-color: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
+        margin-right: 4px;
+    }
+    .badge-success { background-color: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+    .badge-danger { background-color: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+    .badge-warning { background-color: #fffbeb; color: #b45309; border-color: #fde68a; }
+    .badge-purple { background-color: #f5f3ff; color: #6d28d9; border-color: #ddd6fe; }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0 16px 0;
+        font-size: 9.5pt;
+        page-break-inside: avoid;
+    }
+    th, td {
+        border: 1px solid #cbd5e1;
+        padding: 7px 10px;
+        text-align: left;
+        vertical-align: top;
+    }
+    th {
+        background-color: #f1f5f9;
+        color: #0f172a;
+        font-weight: 600;
+    }
+    tr:nth-child(even) td {
+        background-color: #f8fafc;
+    }
+
+    code {
+        font-family: "Consolas", "Courier New", monospace;
+        background-color: #f1f5f9;
+        color: #0f172a;
+        padding: 1px 5px;
+        border-radius: 3px;
+        font-size: 9pt;
+        border: 1px solid #e2e8f0;
+    }
+    pre {
+        font-family: "Consolas", "Courier New", monospace;
+        background-color: #0f172a;
+        color: #f8fafc;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 8.5pt;
+        overflow-x: auto;
+        page-break-inside: avoid;
+        margin: 10px 0 14px 0;
+    }
+
+    .callout {
+        border-left: 4px solid #2563eb;
+        background-color: #eff6ff;
+        padding: 10px 14px;
+        border-radius: 0 6px 6px 0;
+        margin: 12px 0;
+        page-break-inside: avoid;
+    }
+    .callout-title {
+        font-weight: 700;
+        color: #1e40af;
+        margin-bottom: 4px;
+        font-size: 10pt;
+    }
+
+    .flow-step {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+    .step-number {
+        background-color: #2563eb;
+        color: white;
+        font-weight: bold;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 24px;
+        margin-right: 12px;
+        flex-shrink: 0;
+        font-size: 9pt;
+    }
+    .step-content {
+        flex-grow: 1;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+    .header-box {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        color: white;
+        padding: 24px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+    .header-box h1 {
+        color: white;
+        border-bottom: none;
+        margin-bottom: 8px;
+    }
+    .header-box p {
+        color: #bfdbfe;
+        font-size: 11pt;
+        margin-bottom: 0;
+    }
+</style>
+</head>
+<body>
+
+<div class="header-box">
+    <h1>Configurable Approval Workflow Engine</h1>
+    <p>Comprehensive Architectural Blueprint, Domain Model, Request Flow, Exception Handling & API Reference</p>
+</div>
+
+<p>
+    <strong>Author:</strong> Senior Java Backend Engineering Team &nbsp;|&nbsp;
+    <strong>Stack:</strong> Java 21, Spring Boot 3.3.5, Spring Security (JWT), Spring Data JPA, H2, JaCoCo (96% Coverage) &nbsp;|&nbsp;
+    <strong>Target Use Cases:</strong> Employee Leave Requests, Expense Claims, Purchase Orders
+</p>
+
+<h2>1. Executive Summary & Core Objective</h2>
+<p>
+    The <strong>Configurable Approval Workflow Engine</strong> is an enterprise backend service built to automate multi-stage approval sequences without hardcoding workflow routes or business rules into the source code.
+</p>
+<div class="callout">
+    <div class="callout-title">CRITICAL ARCHITECTURAL RULE: Zero Hardcoded Workflows</div>
+    The engine contains <strong>no if-else or switch-case statements</strong> based on request types (<code>LEAVE</code>, <code>EXPENSE</code>), role names, or step sequences. All approval steps, sequences, and role authorities are loaded dynamically from the database. Adding a new request type or altering an existing sequence requires only inserting or updating database records.
+</div>
+
+<h3>Key Architectural Guarantees</h3>
+<ul>
+    <li><strong>N-Step Workflow Agnostic:</strong> Works seamlessly for 1-step (<code>QUICK_REQUEST</code>), 2-step (<code>LEAVE</code>, <code>EXPENSE</code>), 3-step (<code>PURCHASE_ORDER</code>), or any $N$-step sequence.</li>
+    <li><strong>Workflow Versioning / Snapshots:</strong> Requests capture the active <code>workflowVersion</code> at submission time. Mid-flight requests are immune to database configuration changes.</li>
+    <li><strong>Concurrency Control:</strong> Implements JPA <code>@Version</code> optimistic locking to guarantee that concurrent approvals cannot duplicate step advancements.</li>
+    <li><strong>Immutable Append-Only Auditing:</strong> Every action generates a tamper-proof audit record in <code>approval_history</code>. No updates or deletions are exposed.</li>
+    <li><strong>Stateless JWT Security:</strong> Signed HMAC-SHA256 tokens authenticate all business endpoints. Requesters are strictly prohibited from approving their own requests.</li>
+</ul>
+
+<h2>2. Layered Architecture & Package Structure</h2>
+<p>
+    The codebase strictly follows a clean layered architecture ensuring loose coupling and separation of concerns:
+</p>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 28%;">Package</th>
+            <th style="width: 27%;">Key Classes</th>
+            <th style="width: 45%;">Responsibility</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>com.example.workflow.controller</code></td>
+            <td><code>RequestController</code><br><code>AdminWorkflowController</code><br><code>AuthenticationController</code></td>
+            <td>Thin REST controllers handling HTTP requests, input validation annotations (<code>@Valid</code>), and delegating directly to services.</td>
+        </tr>
+        <tr>
+            <td><code>com.example.workflow.service</code></td>
+            <td><code>WorkflowService</code><br><code>WorkflowConfigurationService</code><br><code>RequestService</code><br><code>ApprovalHistoryService</code></td>
+            <td>Core domain logic. <code>WorkflowConfigurationService</code> queries dynamic DB steps. <code>WorkflowService</code> executes lifecycle state transitions.</td>
+        </tr>
+        <tr>
+            <td><code>com.example.workflow.entity</code></td>
+            <td><code>Request</code><br><code>ApprovalStep</code><br><code>ApprovalHistory</code><br><code>User</code></td>
+            <td>JPA entities mapping domain models to database tables with primary keys, indexes, foreign keys, and optimistic locking tokens.</td>
+        </tr>
+        <tr>
+            <td><code>com.example.workflow.security</code></td>
+            <td><code>JwtService</code><br><code>JwtAuthenticationFilter</code><br><code>CustomUserDetailsService</code><br><code>SecurityUtils</code></td>
+            <td>Cryptographic JWT token generation, stateless Bearer token extraction filter, and principal context resolution.</td>
+        </tr>
+        <tr>
+            <td><code>com.example.workflow.exception</code></td>
+            <td><code>GlobalExceptionHandler</code><br><code>WorkflowTransitionException</code><br><code>UnauthorizedActionException</code></td>
+            <td>Centralized <code>@RestControllerAdvice</code> mapping application exceptions into consistent JSON error responses.</td>
+        </tr>
+        <tr>
+            <td><code>com.example.workflow.config</code></td>
+            <td><code>SecurityConfig</code><br><code>OpenApiConfig</code><br><code>DatabaseSeeder</code></td>
+            <td>Spring Security filter chain, Swagger OpenAPI 3.0 documentation, and development database bootstrapping.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h2>3. Database Design & Entity Relationships</h2>
+<p>
+    The database schema consists of four relational tables designed for transactional integrity and auditability:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Table Name</th>
+            <th>Primary Key & Constraints</th>
+            <th>Key Columns</th>
+            <th>Purpose</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong><code>users</code></strong></td>
+            <td><code>id</code> (PK, Identity)<br><code>username</code> (Unique, Index)</td>
+            <td><code>username</code>, <code>password_hash</code>, <code>role</code> (<code>REQUESTER</code>, <code>APPROVER</code>, <code>ADMIN</code>), <code>enabled</code>, <code>created_at</code></td>
+            <td>Stores system users with BCrypt password hashes. Plaintext passwords are never stored.</td>
+        </tr>
+        <tr>
+            <td><strong><code>approval_steps</code></strong></td>
+            <td><code>id</code> (PK, Identity)<br>Unique: <code>(request_type, workflow_version, step_order)</code></td>
+            <td><code>request_type</code>, <code>step_order</code>, <code>role</code>, <code>workflow_version</code>, <code>active</code></td>
+            <td>Defines dynamic workflow sequences in the database. Loaded on-demand by the engine.</td>
+        </tr>
+        <tr>
+            <td><strong><code>requests</code></strong></td>
+            <td><code>id</code> (PK, Identity)<br>Indexed: <code>created_by</code>, <code>status</code>, <code>type</code></td>
+            <td><code>type</code>, <code>status</code> (<code>PENDING</code>, <code>APPROVED</code>, <code>REJECTED</code>), <code>created_by</code>, <code>current_step_order</code>, <code>workflow_version</code>, <code>payload</code> (CLOB), <code>version</code> (Optimistic Lock)</td>
+            <td>Represents workflow requests. Tracks active step, payload JSON, and optimistic locking token.</td>
+        </tr>
+        <tr>
+            <td><strong><code>approval_history</code></strong></td>
+            <td><code>id</code> (PK, Identity)<br>Indexed: <code>request_id</code>, <code>action_at</code></td>
+            <td><code>request_id</code>, <code>action</code>, <code>action_by</code>, <code>action_at</code>, <code>step_order</code>, <code>remarks</code></td>
+            <td>Immutable, append-only audit trail logging every creation, approval, rejection, and override.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Sample Database Configurations Seeded at Boot:</h3>
+<ul>
+    <li><strong><code>LEAVE</code> (2 Steps):</strong> Step 1: <code>APPROVER</code> (Manager) &rarr; Step 2: <code>ADMIN</code> (HR Executive)</li>
+    <li><strong><code>EXPENSE</code> (2 Steps):</strong> Step 1: <code>APPROVER</code> (Supervisor) &rarr; Step 2: <code>ADMIN</code> (Finance Director)</li>
+    <li><strong><code>PURCHASE_ORDER</code> (3 Steps):</strong> Step 1: <code>APPROVER</code> &rarr; Step 2: <code>APPROVER</code> &rarr; Step 3: <code>ADMIN</code></li>
+    <li><strong><code>QUICK_REQUEST</code> (1 Step):</strong> Step 1: <code>APPROVER</code> (Concludes immediately upon single approval)</li>
+</ul>
+
+<h2>4. End-to-End Request Flow</h2>
+<p>The following step-by-step breakdown illustrates how a request flows through the entire system architecture:</p>
+
+<div class="flow-step">
+    <div class="step-number">1</div>
+    <div class="step-content">
+        <strong>Authentication & Security Interception (<code>POST /auth/login</code>)</strong><br>
+        Client submits credentials. Spring Security verifies the BCrypt hash. <code>JwtService</code> issues a signed HMAC-SHA256 token containing the username and authority claim (e.g., <code>ROLE_REQUESTER</code>). On all subsequent calls, <code>JwtAuthenticationFilter</code> validates the Bearer token and establishes the <code>SecurityContext</code>.
+    </div>
+</div>
+
+<div class="flow-step">
+    <div class="step-number">2</div>
+    <div class="step-content">
+        <strong>Request Submission (<code>POST /requests</code>)</strong><br>
+        The client submits <code>{"type": "LEAVE", "payload": {"days": 3}}</code>. <code>SecurityUtils</code> extracts the creator identity directly from the authenticated principal (never trusting client-supplied author headers). <code>WorkflowConfigurationService</code> queries the database for active steps for <code>LEAVE</code>. Request is saved with status <code>PENDING</code>, <code>currentStepOrder = 1</code>, and an immutable <code>REQUEST_CREATED</code> history entry is saved in the same transaction.
+    </div>
+</div>
+
+<div class="flow-step">
+    <div class="step-number">3</div>
+    <div class="step-content">
+        <strong>Step Approval & Sequence Advancement (<code>POST /requests/{id}/approve</code>)</strong><br>
+        Approver submits approval. The engine enforces domain rules:
+        <ol style="margin: 4px 0 6px 0; padding-left: 20px;">
+            <li>Status must be <code>PENDING</code> (otherwise throws <code>WorkflowTransitionException</code> &rarr; 409 Conflict).</li>
+            <li>Self-approval check: <code>request.createdBy != approverUsername</code> (otherwise throws <code>UnauthorizedActionException</code> &rarr; 403 Forbidden).</li>
+            <li>Role check: Approver's role must match the database-configured role for <code>currentStepOrder</code> (otherwise throws 403 Forbidden).</li>
+        </ol>
+        Engine writes an <code>APPROVED</code> record to history. It then queries the DB for <code>currentStepOrder + 1</code>:
+        <ul>
+            <li>If a next step exists: Request advances to <code>currentStepOrder = 2</code>.</li>
+            <li>If no next step exists: Request transitions to terminal status <strong><code>APPROVED</code></strong> and sets <code>currentStepOrder = null</code>.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="flow-step">
+    <div class="step-number">4</div>
+    <div class="step-content">
+        <strong>Workflow Rejection (<code>POST /requests/{id}/reject</code>)</strong><br>
+        An authorized approver rejects the request. The engine validates authorization, appends a <code>REJECTED</code> audit event with mandatory/optional remarks, transitions status to <code>REJECTED</code>, and sets <code>currentStepOrder = null</code>. Workflow is permanently terminated.
+    </div>
+</div>
+
+<div class="flow-step">
+    <div class="step-number">5</div>
+    <div class="step-content">
+        <strong>Emergency Administrator Override (<code>POST /admin/requests/{id}/override</code>)</strong><br>
+        An <code>ADMIN</code> user can force-override any request to <code>APPROVED</code> or <code>REJECTED</code> at any time. The engine verifies the user is an admin, checks that the target status is different from current status (idempotency guard), updates status, and appends <code>ADMIN_OVERRIDE_APPROVED</code> or <code>ADMIN_OVERRIDE_REJECTED</code> to history without removing past records.
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<h2>5. Centralized Exception Handling & HTTP Status Code Mapping</h2>
+<p>
+    Exception handling is implemented in two tiers: at the <strong>Security Filter Layer</strong> and via a centralized <strong><code>@RestControllerAdvice</code></strong> in <code>GlobalExceptionHandler.java</code>.
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 25%;">Exception Class</th>
+            <th style="width: 15%;">HTTP Code</th>
+            <th style="width: 20%;">Error Title</th>
+            <th style="width: 40%;">Trigger Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>MethodArgumentNotValidException</code></td>
+            <td><span class="badge badge-warning">400 Bad Request</span></td>
+            <td>Validation Failed</td>
+            <td>Bean validation fails (e.g. blank username, blank password, empty request type).</td>
+        </tr>
+        <tr>
+            <td><code>InvalidWorkflowException</code></td>
+            <td><span class="badge badge-warning">400 Bad Request</span></td>
+            <td>Invalid Workflow Configuration</td>
+            <td>Requested type has no active steps configured in database, or step sequence has gaps.</td>
+        </tr>
+        <tr>
+            <td><code>BadCredentialsException</code></td>
+            <td><span class="badge badge-danger">401 Unauthorized</span></td>
+            <td>Authentication Failed</td>
+            <td>Invalid username or password supplied during login.</td>
+        </tr>
+        <tr>
+            <td><code>AuthenticationEntryPoint</code></td>
+            <td><span class="badge badge-danger">401 Unauthorized</span></td>
+            <td>Unauthorized</td>
+            <td>Client calls protected business endpoint without a valid Bearer JWT.</td>
+        </tr>
+        <tr>
+            <td><code>UnauthorizedActionException</code></td>
+            <td><span class="badge badge-danger">403 Forbidden</span></td>
+            <td>Forbidden Action</td>
+            <td>Requester attempts self-approval; or non-admin attempts registration for <code>ADMIN</code> role.</td>
+        </tr>
+        <tr>
+            <td><code>AccessDeniedException</code></td>
+            <td><span class="badge badge-danger">403 Forbidden</span></td>
+            <td>Access Denied</td>
+            <td>User role does not have authorization for endpoint or attempting to view another user's request.</td>
+        </tr>
+        <tr>
+            <td><code>ResourceNotFoundException</code></td>
+            <td><span class="badge">404 Not Found</span></td>
+            <td>Resource Not Found</td>
+            <td>Request ID, User, or Step cannot be found in the database.</td>
+        </tr>
+        <tr>
+            <td><code>WorkflowTransitionException</code></td>
+            <td><span class="badge badge-purple">409 Conflict</span></td>
+            <td>Invalid State Transition</td>
+            <td>Attempting to approve or reject a request that is already approved, rejected, or completed.</td>
+        </tr>
+        <tr>
+            <td><code>UserAlreadyExistsException</code></td>
+            <td><span class="badge badge-purple">409 Conflict</span></td>
+            <td>User Conflict</td>
+            <td>Attempting to register with a username that already exists in the database.</td>
+        </tr>
+        <tr>
+            <td><code>OptimisticLockingFailureException</code></td>
+            <td><span class="badge badge-purple">409 Conflict</span></td>
+            <td>Concurrent Modification Conflict</td>
+            <td>Two concurrent threads attempt to advance the exact same request simultaneously.</td>
+        </tr>
+        <tr>
+            <td><code>Exception</code> (General)</td>
+            <td><span class="badge badge-danger">500 Server Error</span></td>
+            <td>Internal Server Error</td>
+            <td>Unhandled runtime crashes. Logged via SLF4J internally; stack traces never leak to client.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Standardized JSON Error Payload Format:</h3>
+<pre>{
+  "timestamp": "2026-10-28T14:20:00Z",
+  "status": 403,
+  "error": "Forbidden Action",
+  "message": "A requester cannot approve their own request.",
+  "path": "/requests/1/approve"
+}</pre>
+
+<h2>6. REST API Endpoint Specifications</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Method</th>
+            <th>Route</th>
+            <th>Authorized Roles</th>
+            <th>Description</th>
+            <th>Success Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>POST</code></td>
+            <td><code>/auth/login</code></td>
+            <td>Public</td>
+            <td>Validates credentials, returns signed JWT token with claims.</td>
+            <td>200 OK</td>
+        </tr>
+        <tr>
+            <td><code>POST</code></td>
+            <td><code>/auth/register</code></td>
+            <td>Public</td>
+            <td>Registers new user account (<code>REQUESTER</code> or <code>APPROVER</code> only).</td>
+            <td>201 Created</td>
+        </tr>
+        <tr>
+            <td><code>POST</code></td>
+            <td><code>/requests</code></td>
+            <td><code>REQUESTER</code></td>
+            <td>Initializes workflow request at step 1; saves audit record.</td>
+            <td>201 Created</td>
+        </tr>
+        <tr>
+            <td><code>GET</code></td>
+            <td><code>/requests/{id}</code></td>
+            <td><code>REQUESTER</code>, <code>APPROVER</code>, <code>ADMIN</code></td>
+            <td>Retrieves metadata, payload, and dynamic current step role (privacy restricted).</td>
+            <td>200 OK</td>
+        </tr>
+        <tr>
+            <td><code>POST</code></td>
+            <td><code>/requests/{id}/approve</code></td>
+            <td><code>APPROVER</code>, <code>ADMIN</code></td>
+            <td>Approves active step; advances sequence or completes workflow.</td>
+            <td>200 OK</td>
+        </tr>
+        <tr>
+            <td><code>POST</code></td>
+            <td><code>/requests/{id}/reject</code></td>
+            <td><code>APPROVER</code>, <code>ADMIN</code></td>
+            <td>Rejects request and terminates workflow.</td>
+            <td>200 OK</td>
+        </tr>
+        <tr>
+            <td><code>GET</code></td>
+            <td><code>/requests/history/{id}</code></td>
+            <td><code>REQUESTER</code>, <code>ADMIN</code></td>
+            <td>Returns complete immutable chronological audit trail.</td>
+            <td>200 OK</td>
+        </tr>
+        <tr>
+            <td><code>POST</code></td>
+            <td><code>/admin/requests/{id}/override</code></td>
+            <td><code>ADMIN</code></td>
+            <td>Emergency override to APPROVED or REJECTED with mandatory remarks.</td>
+            <td>200 OK</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h2>7. Automated Testing & Code Coverage Report</h2>
+<p>
+    The project includes an exhaustive automated test suite verified via Maven and JaCoCo:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Coverage Metric</th>
+            <th>Required Minimum</th>
+            <th>Actual Result Achieved</th>
+            <th>Verification Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Line Coverage</strong></td>
+            <td>80.00%</td>
+            <td><strong style="color: #047857;">96.00%</strong> (839 / 874 lines)</td>
+            <td><span class="badge badge-success">PASSED</span></td>
+        </tr>
+        <tr>
+            <td><strong>Instruction Coverage</strong></td>
+            <td>80.00%</td>
+            <td><strong style="color: #047857;">94.75%</strong> (3,391 / 3,579 instructions)</td>
+            <td><span class="badge badge-success">PASSED</span></td>
+        </tr>
+        <tr>
+            <td><strong>Total Automated Tests</strong></td>
+            <td>—</td>
+            <td><strong>56 Tests</strong> (0 Failures, 0 Errors, 0 Skipped)</td>
+            <td><span class="badge badge-success">PASSED</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Test Categories Included in Suite:</h3>
+<ul>
+    <li><strong>Security & JWT Tests:</strong> Token expiration, invalid signatures, privilege escalation prevention, unauthenticated 401, role forbidden 403.</li>
+    <li><strong>Full Workflow Tests:</strong> Single-step (<code>QUICK_REQUEST</code>), 2-step (<code>LEAVE</code>, <code>EXPENSE</code>), and 3-step (<code>PURCHASE_ORDER</code>).</li>
+    <li><strong>Authorization & Privacy Tests:</strong> Requesters cannot approve their own requests; Requesters cannot view another user's requests or audit history.</li>
+    <li><strong>Concurrency & Optimistic Locking Tests:</strong> Multi-threaded concurrent approval tests confirming that duplicate step advancement is prevented and throws 409 Conflict.</li>
+    <li><strong>Transaction Rollback Tests:</strong> Injected audit persistence failures verifying complete transactional rollback without leaving dirty states.</li>
+</ul>
+
+<h2>8. Deployment & Execution Instructions</h2>
+
+<h3>Local Development Startup</h3>
+<pre># 1. Start application using Maven Wrapper
+.\mvnw.cmd spring-boot:run
+
+# 2. Access Interactive Swagger UI Documentation
+http://localhost:8080/swagger-ui/index.html
+
+# 3. Access H2 In-Memory Database Console
+http://localhost:8080/h2-console
+JDBC URL: jdbc:h2:mem:workflowdb | Username: sa | Password: password</pre>
+
+<h3>Pre-Seeded Development Credentials</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Primary Testing Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>requester1</code></td>
+            <td><code>password123</code></td>
+            <td><code>REQUESTER</code></td>
+            <td>Creating workflow requests, viewing own history</td>
+        </tr>
+        <tr>
+            <td><code>requester2</code></td>
+            <td><code>password123</code></td>
+            <td><code>REQUESTER</code></td>
+            <td>Testing ownership privacy & multi-user isolation</td>
+        </tr>
+        <tr>
+            <td><code>approver1</code></td>
+            <td><code>password123</code></td>
+            <td><code>APPROVER</code></td>
+            <td>Normal approval / rejection of step 1</td>
+        </tr>
+        <tr>
+            <td><code>approver2</code></td>
+            <td><code>password123</code></td>
+            <td><code>APPROVER</code></td>
+            <td>Intermediate approvals in multi-stage workflows</td>
+        </tr>
+        <tr>
+            <td><code>admin</code></td>
+            <td><code>admin123</code></td>
+            <td><code>ADMIN</code></td>
+            <td>Final approval stage & emergency administrator overrides</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Docker & Cloud Deployment (Render)</h3>
+<p>
+    The project includes a multi-stage <code>Dockerfile</code> and <code>render.yaml</code>. The configuration dynamically binds to Render's <code>$PORT</code> environment variable via <code>server.port=${PORT:8080}</code> with memory limit optimizations (<code>-Xmx384m</code>) for free-tier cloud containers.
+</p>
+
+</body>
+</html>
